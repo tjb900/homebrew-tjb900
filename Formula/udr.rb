@@ -11,9 +11,11 @@ class Udr < Formula
 
   # depends_on "cmake" => :build
   depends_on :x11 # if your formula requires any X11/XQuartz components
+  depends_on "openssl"
 
   def install
     # ENV.deparallelize  # if your formula fails when building in parallel
+    ENV.prepend_create_path "CPATH", "#{Formula["openssl"].opt_prefix}/include"
     system "make", "-C", "udt/src", "-e", "os=OSX"
     system "make", "-C", "src", "-e", "os=OSX"
     system "mkdir", "#{bin}"
